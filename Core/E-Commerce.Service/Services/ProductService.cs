@@ -16,7 +16,7 @@ namespace E_Commerce.Service.Services
 
         public async Task<ProductResponse?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var product = await unitOfWork.GetRepository<Product, int>().GetByIdAsync(id, cancellationToken);
+            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(new ProductWithBrandTypeSpecification(id), cancellationToken);
             return mapper.Map<ProductResponse?>(product);
         }
 

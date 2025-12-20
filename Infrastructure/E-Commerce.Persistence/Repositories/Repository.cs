@@ -11,27 +11,37 @@ namespace E_Commerce.Persistence.Repositories
         private readonly DbSet<TEntity> _dbSet = dbContext.Set<TEntity>();
         public void Add(TEntity entity)
         {
-            dbContext.Set<TEntity>().Add(entity);
+            _dbSet.Add(entity);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
         {
-            return await dbContext.Set<TEntity>().ToListAsync(cancellationToken);
+            return await _dbSet.ApplySpecification(specification).ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.ToListAsync(cancellationToken);
+        }
+
+        public async Task<TEntity?> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
         {
-            return await dbContext.Set<TEntity>().FindAsync(id, cancellationToken);
+            return await _dbSet.FindAsync(id, cancellationToken);
         }
 
         public void Remove(TEntity entity)
         {
-            dbContext.Set<TEntity>().Remove(entity);
+            _dbSet.Remove(entity);
         }
 
         public void Update(TEntity entity)
         {
-            dbContext.Set<TEntity>().Update(entity);
+            _dbSet.Update(entity);
         }
     }
 }

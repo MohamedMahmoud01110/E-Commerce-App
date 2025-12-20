@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Domain.Entities.Products;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,24 @@ namespace E_Commerce.Service.MappingProfiles
                 .ForMember(d => d.Brand,
                 o => o.MapFrom(s => s.ProductBrand.Name))
                 .ForMember(d => d.Type,
-                o => o.MapFrom(s => s.ProductType.Name));
+                o => o.MapFrom(s => s.ProductType.Name))
+                .ForMember(d => d.PictureUrl,
+                o => o.MapFrom<ProductPictureUrlResolver>());
 
 
             CreateMap<ProductBrand, BrandResponse>();
             CreateMap<ProductType, TypeResponse>();
+        }
+    }
+
+    internal class ProductPictureUrlResolver(IConfiguration configuration) : IValueResolver<Product, ProductResponse, string>
+    {
+        public string? Resolve(Product source, ProductResponse destination, string destMember, ResolutionContext context)
+        {
+            if (string.IsNullOrWhiteSpace(source.PictureUrl))
+                return null;
+
+            return $"{configuration["BaseUrl"]}{source.PictureUrl}";
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 using E_Commerce.Domain.Entities.Products;
+using E_Commerce.Service.Specifications;
 
 namespace E_Commerce.Service.Services
 {
@@ -21,7 +22,8 @@ namespace E_Commerce.Service.Services
 
         public async Task<IEnumerable<ProductResponse>> GetProductsAsync(CancellationToken cancellationToken = default)
         {
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(cancellationToken);
+            var spec = new ProductWithBrandTypeSpecification();
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(spec, cancellationToken);
             return mapper.Map<IEnumerable<ProductResponse>>(products);
 
         }

@@ -14,6 +14,11 @@ namespace E_Commerce.Persistence.Repositories
             _dbSet.Add(entity);
         }
 
+        public async Task<int> CountAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.ApplySpecification(specification).CountAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
         {
             return await _dbSet.ApplySpecification(specification).ToListAsync(cancellationToken);

@@ -20,7 +20,21 @@ namespace E_Commerce.Persistence.Repositories
             foreach (var include in specification.Includes)
                 query.Include(include);
 
+            if (specification.OrderBy is not null)
+            {
+                query = query.OrderBy(specification.OrderBy);
+            }
+            else if (specification.OrderByDesc is not null)
+            {
+                query = query.OrderByDescending(specification.OrderByDesc);
 
+            }
+
+            if (specification.IsPaginated)
+            {
+                query = query.Skip(specification.Skip).Take(specification.Take);
+
+            }
 
             //query = specification.Includes.Aggregate(query, (query, include)
             //    => query.Include(include));

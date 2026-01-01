@@ -13,6 +13,7 @@ namespace E_Commerce.Service.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;

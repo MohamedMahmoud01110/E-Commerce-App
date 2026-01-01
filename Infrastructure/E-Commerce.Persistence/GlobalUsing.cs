@@ -3,3 +3,5 @@ global using E_Commerce.Domain.Entities.Products;
 global using E_Commerce.Domain.Contracts;
 global using E_Commerce.Persistence.Context;
 global using E_Commerce.Domain.Entities;
+global using E_Commerce.ServiceAbstraction;
+global using StackExchange.Redis;

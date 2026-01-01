@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce.Presentation.API.Attributes;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
     public class ProductsController(IProductService service) : APIBaseController
     {
         // Get all (filteration , search , order , pagination)
+        [RedisCash]
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<ProductResponse>>> GetProducts([FromQuery] ProductQueryParameters parameters, CancellationToken cancellationToken = default)
         {

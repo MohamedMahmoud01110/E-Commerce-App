@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
-    public class BasketController(IBasketService basketService) : APIBaseController
+    public class BasketsController(IBasketService basketService) : APIBaseController
     {
         [HttpPost]
         public async Task<ActionResult<CustomerBasketDTO>> Update(CustomerBasketDTO basketDTO)
         {
-            return Ok(basketService.CreateOrUpdateAsync(basketDTO));
+            return Ok( await basketService.CreateOrUpdateAsync(basketDTO));
         }
         [HttpGet]
         public async Task<ActionResult<CustomerBasketDTO>> Get(string id)

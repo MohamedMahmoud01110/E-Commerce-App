@@ -9,7 +9,7 @@ namespace E_Commerce.Shared.DataTransferObjects
     public class CustomerBasketDTO
     {
         public string Id { get; set; } // Client generated (GUID)
-        public ICollection<BasketItemDTO> BasketItems { get; set; } = [];
+        public ICollection<BasketItemDTO> Items { get; set; } = [];
 
     }
 }

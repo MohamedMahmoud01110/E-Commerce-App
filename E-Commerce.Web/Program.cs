@@ -2,6 +2,7 @@
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Persistence.DependancyInjection;
 using E_Commerce.Service.DependencyInjection;
+using E_Commerce.Web.Middlewares;
 using System.Threading.Tasks;
 
 namespace E_Commerce.Web
@@ -32,6 +33,30 @@ namespace E_Commerce.Web
 
 
             #endregion
+
+
+
+            ///app.Use(async (context, next) =>
+            ///{
+            ///    try
+            ///    {
+            ///        await next.Invoke(context);
+            ///    }
+            ///    catch (Exception ex)
+            ///    {
+            ///        Console.WriteLine(ex.Message);
+            ///        // write response
+            ///        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            ///        await context.Response.WriteAsJsonAsync(new
+            ///        {
+            ///            StatusCode = StatusCodes.Status500InternalServerError,
+            ///            Message = ex.Message
+            ///        });
+            ///    }
+            ///});
+
+            //app.UseMiddleware<GlobalExceptionHandler>();
+            app.UseCustomExceptionHandler(); // the extension i add
 
 
             // Configure the HTTP request pipeline.

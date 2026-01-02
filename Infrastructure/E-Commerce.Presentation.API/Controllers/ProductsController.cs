@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using E_Commerce.Presentation.API.Attributes;
+using Microsoft.AspNetCore.Http;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
@@ -27,6 +28,7 @@ namespace E_Commerce.Presentation.API.Controllers
         {
             var response = await service.GetByIdAsync(id, cancellationToken);
             return Ok(response);
+
         }
         // Get Brand
         [HttpGet("Brands")]

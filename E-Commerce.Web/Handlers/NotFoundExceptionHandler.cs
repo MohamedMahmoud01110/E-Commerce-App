@@ -1,0 +1,33 @@
+﻿using E_Commerce.Service.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
+namespace E_Commerce.Web.Handlers
+{
+    public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) : IExceptionHandler
+    {
+        public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception ex, CancellationToken cancellationToken)
+        {
+            if (ex is NotFoundException notFound)
+            {
+                // logging
+                logger.LogError("Something Went Wrong {Message}", ex.Message);
+                var problem = new ProblemDetails
+                {
+                    Title = "Error Processing The HTTP Request",
+                    Detail = notFound.Message,
+                    Instance = context.Request.Path,
+                    Status = StatusCodes.Status404NotFound,
+
+                };
+                context.Response.StatusCode = problem.Status.Value;
+                await context.Response.WriteAsJsonAsync(problem, cancellationToken);
+                return true;
+
+            }
+
+            return false;
+
+        }
+    }
+}

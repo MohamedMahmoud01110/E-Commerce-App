@@ -2,6 +2,8 @@
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Persistence.DependancyInjection;
 using E_Commerce.Service.DependencyInjection;
+using E_Commerce.Service.Exceptions;
+using E_Commerce.Web.Handlers;
 using E_Commerce.Web.Middlewares;
 using System.Threading.Tasks;
 
@@ -21,6 +23,8 @@ namespace E_Commerce.Web
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
             var app = builder.Build();
 
@@ -56,8 +60,8 @@ namespace E_Commerce.Web
             ///});
 
             //app.UseMiddleware<GlobalExceptionHandler>();
-            app.UseCustomExceptionHandler(); // the extension i add
-
+            //app.UseCustomExceptionHandler(); // the extension i add
+            app.UseExceptionHandler();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

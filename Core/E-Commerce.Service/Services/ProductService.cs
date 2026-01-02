@@ -1,6 +1,7 @@
 ﻿
 
 using E_Commerce.Domain.Entities.Products;
+using E_Commerce.Service.Exceptions;
 using E_Commerce.Service.Specifications;
 using E_Commerce.Shared.DataTransferObjects;
 
@@ -17,7 +18,9 @@ namespace E_Commerce.Service.Services
 
         public async Task<ProductResponse?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(new ProductWithBrandTypeSpecification(id), cancellationToken);
+            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(new ProductWithBrandTypeSpecification(id), cancellationToken);//or i use collesue ??
+            if (product == null)
+                throw new ProductNotFoundException(id);
             return mapper.Map<ProductResponse?>(product);
         }
 
